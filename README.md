@@ -22,24 +22,24 @@ Here's an example playbook using influxdb stats as an input and influxdb
 as an output.
 
 ```yaml
-    - hosts: utility
-      vars_files:
-        - vars/main.yml
-      roles:
-        - jamescarr.telegraf
-          plugins:
-            outputs:
-              influxdb:
-                urls:
-                  - 'http://localhost:8086'
-                database: telegraf
-                precision: s
-                retention_policy: default
-                write_consistency: any
-                timeout: 5s
-            inputs:
-              influxdb:
-                urls: ['http://localhost:8086/debug/vars']
+- hosts: utility
+  vars_files:
+    - vars/main.yml
+  roles:
+    - jamescarr.telegraf
+      plugins:
+        outputs:
+          influxdb:
+            urls:
+              - 'http://localhost:8086'
+            database: telegraf
+            precision: s
+            retention_policy: default
+            write_consistency: any
+            timeout: 5s
+        inputs:
+          influxdb:
+            urls: ['http://localhost:8086/debug/vars']
 
 ```
 
