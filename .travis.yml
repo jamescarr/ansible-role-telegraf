@@ -37,7 +37,7 @@ script:
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm which influx'
 
   # Ensure it is started
-  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm service influxdb status |grep OK'
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm service telegraf status |grep OK'
 
   # Clean up
   - 'sudo docker stop "$(cat ${container_id})"'
