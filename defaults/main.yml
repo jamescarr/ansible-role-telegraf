@@ -11,6 +11,7 @@ telegraf_agent_quiet: 'false'
 telegraf_agent_hostname: "{{ ansible_hostname }}"
 telegraf_agent_omit_hostname: 'false'
 
+# plugin variables
 plugins:
   outputs: {}
   inputs: {}
