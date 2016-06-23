@@ -1,0 +1,19 @@
+---
+- name: Include OS Specific Variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Setup and Install Package
+  include: "setup-{{ ansible_os_family }}.yml"
+
+- name: Render telegraf configuration
+  template:
+    src: telegraf.conf.j2
+    dest: /etc/telegraf/telegraf.conf
+
+- name: verify generated telegraf config
+  shell: /usr/bin/telegraf -config /etc/telegraf/telegraf.conf -test
+
+- name: Start up Telegraf
+  service:
+    name: telegraf
+    state: running

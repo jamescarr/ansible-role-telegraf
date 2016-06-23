@@ -1,0 +1,16 @@
+---
+telegraf_agent_interval: 10s
+telegraf_agent_round_interval: 'true'
+telegraf_agent_metric_batch_size: 1000
+telegraf_agent_metric_buffer_limit: 10000
+telegraf_agent_collection_jitter: 0s
+telegraf_agent_flush_interval: 10s
+telegraf_agent_flush_jitter: 0s
+telegraf_agent_debug: 'false'
+telegraf_agent_quiet: 'false'
+telegraf_agent_hostname: "{{ ansible_hostname }}"
+telegraf_agent_omit_hostname: 'false'
+
+plugins:
+  outputs: {}
+  inputs: {}

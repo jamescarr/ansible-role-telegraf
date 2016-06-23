@@ -1,0 +1,20 @@
+---
+- name: Ensure apt-https Driver is Present
+  apt:
+    name: apt-transport-https
+    state: present
+    update_cache: yes
+
+- name: Add apt-key
+  apt_key:
+    url: "{{ telegraf_apt_key_url }}"
+    state: present
+
+- name: Add Apt Repository
+  apt_repository:
+    repo: "{{ telegraf_apt_repo }}"
+    update_cache: yes
+
+- name: Install telegraf package
+  package:
+    name: telegraf
