@@ -72,6 +72,8 @@
       {{ key }} = "{{ value }}"
     {% elif value is sequence %}
       {{ key }} = ['{{ "', '".join(value) }}']
+    {% elif value | bool %}
+      {{ key }} = {{ 'true' if value | bool else 'false' }}
     {% else %}
       {{ key }} = {{ value }}
     {% endif %}
