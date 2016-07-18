@@ -4,8 +4,7 @@ galaxy_info:
   license: MIT
   min_ansible_version: 2.0
   galaxy_tags:
-    - influxdb
-    - databases
+    - telegraf
     - monitoring
   platforms:
    - name: Ubuntu
@@ -17,7 +16,6 @@ galaxy_info:
       - trusty
   categories:
    - monitoring
-   - databases
 allow_duplicates: yes
 dependencies: []
 
