@@ -70,8 +70,10 @@
   {% for key, value in output.iteritems() %}
     {% if value is string %}
       {{ key }} = "{{ value }}"
-    {% elif value is sequence %}
+    {% elif value is sequence and value[0] is string %}
       {{ key }} = ['{{ "', '".join(value) }}']
+    {% elif value is sequence and value[0] is int %}
+      {{ key }} = [{{ ", ".join(value) }}]
     {% elif value | bool %}
       {{ key }} = {{ 'true' if value | bool else 'false' }}
     {% else %}
@@ -88,8 +90,10 @@
   {% for key, value in input.iteritems() %}
     {% if value is string %}
       {{ key }} = "{{ value }}"
-    {% elif value is sequence %}
+    {% elif value is sequence and value is string %}
       {{ key }} = ['{{ "', '".join(value) }}']
+    {% elif value is sequence and value is int %}
+      {{ key }} = [{{ ", ".join(value) }}]
     {% elif value | bool %}
       {{ key }} = {{ 'true' if value | bool else 'false' }}
     {% else %}
