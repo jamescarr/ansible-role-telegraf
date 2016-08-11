@@ -73,7 +73,7 @@
     {% elif value is sequence and value[0] is string %}
       {{ key }} = ['{{ "', '".join(value) }}']
     {% elif value is sequence and value[0] is number %}
-      {{ key }} = [{{ ", ".join(value) }}]
+      {{ key }} = [{{ ", ".join(value | string) }}]
     {% else %}
       {{ key }} = {{ value | string | lower }}
     {% endif %}
@@ -91,7 +91,7 @@
     {% elif value is sequence and value[0] is string %}
       {{ key }} = ['{{ "', '".join(value) }}']
     {% elif value is sequence and value[0] is number %}
-      {{ key }} = [{{ ", ".join(value) }}]
+      {{ key }} = [{{ ", ".join(value | string ) }}]
     {% else %}
       {{ key }} = {{ value | string | lower }}
     {% endif %}
