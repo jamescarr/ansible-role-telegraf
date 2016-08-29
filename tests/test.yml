@@ -15,7 +15,7 @@
       when: ansible_os_family == 'Debian'
 
   roles:
-    - role_under_test
+    - role: role_under_test
       plugins:
         inputs:
           exec:
