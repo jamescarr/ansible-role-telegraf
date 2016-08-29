@@ -16,3 +16,15 @@
 
   roles:
     - role_under_test
+      plugins:
+        inputs:
+          exec:
+            commands:
+              - echo '{"a": 1}'
+            data_format: "json"
+            name_suffix: _collector
+        outputs:
+          file:
+            files:
+              - "/tmp/metrics.out"
+            data_format: "json"
