@@ -12,8 +12,3 @@
 
 - name: verify generated telegraf config
   shell: /usr/bin/telegraf -config /etc/telegraf/telegraf.conf -test
-
-- name: Start up Telegraf
-  service:
-    name: telegraf
-    state: running

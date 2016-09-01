@@ -65,35 +65,15 @@
 ###############################################################################
 #                            OUTPUT PLUGINS                                   #
 ###############################################################################
-{% for name, output in plugins.outputs.iteritems() %}
+{% for name, output in plugins.get('outputs', {}).iteritems() %}
 [[outputs.{{ name }}]]
-{% for key, value in output.iteritems() %}
-{% if value is string %}
-  {{ key }} = "{{ value }}"
-{% elif value is sequence and value[0] is string %}
-  {{ key }} = ['{{ "', '".join(value) }}']
-{% elif value is sequence and value[0] is number %}
-  {{ key }} = [{%- for v in value -%} {{ v }},{%- endfor -%}]
-{% else %}
-  {{ key }} = {{ value | string | lower }}
-{% endif %}
-{% endfor %}
+{{ output | to_toml }}
 {% endfor %}
 
 ###############################################################################
 #                            INPUT PLUGINS                                    #
 ###############################################################################
-{% for name, input in plugins.inputs.iteritems() %}
+{% for name, input in plugins.get('inputs').iteritems() %}
 [[inputs.{{ name }}]]
-{% for key, value in input.iteritems() %}
-{% if value is string %}
-  {{ key }} = "{{ value }}"
-{% elif value is sequence and value[0] is string %}
-  {{ key }} = ['{{ "', '".join(value) }}']
-{% elif value is sequence and value[0] is number %}
-  {{ key }} = [{%- for v in value -%} {{ v }},{%- endfor -%}]
-{% else %}
-  {{ key }} = {{ value | string | lower }}
-{% endif %}
-{% endfor %}
+{{ input | to_toml }}
 {% endfor %}
