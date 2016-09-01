@@ -13,6 +13,31 @@
       with_items:
         - sudo
       when: ansible_os_family == 'Debian'
+  tasks:
+    - name: Start telegraf
+      debug:
+        msg: "starting telegraf..."
+      notify: restart telegraf
+      tags: assertion
+
+    - name: wait 5 seconds
+      pause:
+        seconds: 5
+      tags: assertion
+
+    - name: Verify service is running
+      script: /bin/ps ax | /bin/grep telegraf
+      tags: assertion
 
   roles:
-    - role_under_test
+    - role: role_under_test
+      plugins:
+        inputs:
+          exec:
+            commands:
+              - "echo '{\"a\": 2 }'"
+        outputs:
+          file:
+            files:
+              - "/tmp/metrics.out"
+            data_format: "json"
