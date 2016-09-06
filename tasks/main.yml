@@ -12,3 +12,4 @@
 
 - name: verify generated telegraf config
   shell: /usr/bin/telegraf -config /etc/telegraf/telegraf.conf -test
+  when: telegraf_verify_config

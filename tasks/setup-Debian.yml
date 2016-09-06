@@ -14,7 +14,14 @@
   apt_repository:
     repo: "{{ telegraf_apt_repo }}"
     update_cache: yes
+  when: telegraf_install_url is not defined
 
 - name: Install telegraf package
   package:
     name: telegraf
+  when: telegraf_install_url is not defined
+
+- name: Install from url
+  apt:
+    deb: "{{ telegraf_install_url }}"
+  when: telegraf_install_url is defined
