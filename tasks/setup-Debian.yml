@@ -22,6 +22,12 @@
   when: telegraf_install_url is not defined
 
 - name: Install from url
+  get_url:
+    url: "{{ telegraf_install_url }}"
+    dest: /tmp/telegraf.deb
+  when: telegraf_install_url is defined
+
+- name: Install from url
   apt:
-    deb: "{{ telegraf_install_url }}"
+    deb: /tmp/telegraf.deb
   when: telegraf_install_url is defined
