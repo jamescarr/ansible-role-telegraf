@@ -22,9 +22,9 @@
   when: telegraf_install_url is not defined
 
 - name: Install from url
-  get_url:
-    url: "{{ telegraf_install_url }}"
-    dest: /tmp/telegraf.deb
+  shell: "wget -q -nv -O telegraf.deb {{ telegraf_install_url }}"
+    args:
+      chdir: /tmp
   when: telegraf_install_url is defined
 
 - name: Install from url
