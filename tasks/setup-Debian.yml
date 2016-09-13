@@ -9,6 +9,7 @@
   apt_key:
     url: "{{ telegraf_apt_key_url }}"
     state: present
+    validate_certs: "{{ telegraf_validate_certs }}"
 
 - name: Add Apt Repository
   apt_repository:

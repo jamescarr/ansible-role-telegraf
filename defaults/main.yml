@@ -13,6 +13,9 @@ telegraf_agent_omit_hostname: 'false'
 
 telegraf_verify_config: true
 
+# SNI is used to serve repos.influxdata.com but SNI isn't supported by python until python-2.7.9
+telegraf_validate_certs: 'yes'
+
 plugins:
   outputs: {}
   inputs: {}
