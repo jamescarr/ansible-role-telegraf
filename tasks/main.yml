@@ -9,6 +9,7 @@
   template:
     src: telegraf.conf.j2
     dest: /etc/telegraf/telegraf.conf
+  when: telegraf_render_config
 
 - name: verify generated telegraf config
   shell: /usr/bin/telegraf -config /etc/telegraf/telegraf.conf -test
