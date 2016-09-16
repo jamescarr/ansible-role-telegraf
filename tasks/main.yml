@@ -1,9 +1,16 @@
 ---
+- name: Check to see if telegraf is already installed
+  stat:
+    path: "{{ telegraf_bin }}"
+  register: telegraf_bin
+
 - name: Include OS Specific Variables
   include_vars: "{{ ansible_os_family }}.yml"
+  when: not telegraf_bin.stat.exists
 
 - name: Setup and Install Package
   include: "setup-{{ ansible_os_family }}.yml"
+  when: not telegraf_bin.stat.exists
 
 - name: Render telegraf configuration
   template:

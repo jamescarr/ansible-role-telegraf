@@ -1,4 +1,10 @@
 ---
+# Paths
+telegraf_bin: /usr/bin/telegraf
+telegraf_etc: /etc/telegraf
+telegraf_confs: "{{ telegraf_etc }}/conf.d"
+
+# Configuration Options
 telegraf_render_config: false
 telegraf_agent_interval: 10s
 telegraf_agent_round_interval: true
