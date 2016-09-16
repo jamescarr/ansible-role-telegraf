@@ -4,12 +4,14 @@
     name: apt-transport-https
     state: present
     update_cache: yes
+  when: telegraf_install_url is not defined
 
 - name: Add apt-key
   apt_key:
     url: "{{ telegraf_apt_key_url }}"
     state: present
     validate_certs: "{{ telegraf_validate_certs }}"
+  when: telegraf_install_url is not defined
 
 - name: Add Apt Repository
   apt_repository:

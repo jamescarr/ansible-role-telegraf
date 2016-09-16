@@ -27,6 +27,7 @@ as an output.
     - vars/main.yml
   roles:
     - jamescarr.telegraf
+      telegraf_render_config: true
       plugins:
         outputs:
           influxdb:
@@ -40,6 +41,35 @@ as an output.
         inputs:
           influxdb:
             urls: ['http://localhost:8086/debug/vars']
+
+```
+
+This role also includes a module that you can use to add standalone
+input/output configurations that are rendered under
+`/etc/telegraf/conf.d`
+
+```yaml
+- name: Add file input
+  telegraf_config:
+  name: mcrouter
+  plugins:
+    input:
+      tail:
+        name_prefix: mcrouter_log
+        from_beginning: true
+        data_format: value
+        data_type: string
+        files:
+          - /var/log/mcrouter/mcrouter.log
+```
+
+You can also specify a template for the config file if needed.
+
+```yaml
+- name: Add file input
+  telegraf_config:
+  name: mcrouter
+  template: mcrouter.conf.j2
 
 ```
 

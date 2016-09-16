@@ -1,6 +1,75 @@
-import re
-import datetime
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import os
+import hashlib
 
+DOCUMENTATION = """
+---
+module: telegraf_config
+version_added: 2.1
+short_description: Manages telegraf configuration files.
+description:
+   - Installs the telegraf package.
+   - Manages telegraf configuration files.
+
+options:
+  name:
+    description:
+      - Name of the telegraf config file.
+    required: true
+  plugins:
+    description:
+      - dict of plugin configurations to render.
+    required: false
+  template:
+    description:
+      - a template to render for the configuration file
+    required: false
+  state:
+   description:
+     - Indicate the desired state of the resource.
+   choices: ['present', 'absent']
+   default: present
+requirements: ["telegraf"]
+
+
+"""
+
+EXAMPLES = """
+
+- name: Tail mcrouter log output
+  telegraf_config:
+  name: mcrouter
+  plugins:
+    input:
+      tail:
+        name_prefix: mcrouter_log
+        from_beginning: true
+        data_format: value
+        data_type: string
+        files:
+          - /var/log/mcrouter/mcrouter.log
+
+- name: Render configuration from template
+  telegraf_config:
+    name: mcrouter
+    template: mcrouter.conf.j2
+
+- name: ensure nginx input is absent
+  telegraf_config:
+    name: nginx
+    state: absent
+
+"""
+
+
+PLUGIN_TEMPLATE = """
+###############################################################################
+#                            {type} PLUGINS                                   #
+###############################################################################
+{config}
+
+"""
 
 def to_toml(o):
     """Returns a string containing the toml corresponding to o, a dictionary"""
@@ -104,7 +173,56 @@ def _dump_value(v):
         return str(v)
     return v
 
+def _get_config_path(module):
+    name = module.params.get('name')
+    config_dir = module.params.get('config_dir')
 
-class FilterModule(object):
-    def filters(self):
-        return {'to_toml': to_toml}
+    return os.path.join(config_dir, name)
+
+
+def _write_config(config, config_path):
+    with open(config_path, 'w') as f:
+        f.write(config)
+
+
+def _get_config(module):
+    output = []
+
+    if module.params.get('plugins'):
+        plugins = module.params.get('plugins')
+        for plugin_type, config in plugins.iteritems():
+            output.append(PLUGIN_TEMPLATE.format(type=plugin_type,
+                config=to_toml({plugin_type: config})))
+        return "\n".join(output)
+
+
+def _add_config(module):
+    config_path = _get_config_path(module)
+    config = _get_config(module)
+
+    _write_config(config, config_path)
+    module.exit_json(changed=True, result="Success")
+
+def _remove_config(module):
+    pass
+
+def main():
+    module = AnsibleModule(argument_spec=dict(
+        name=dict(required=True),
+        plugins=dict(required=False, type='dict'),
+        template=dict(required=False),
+        config_dir=dict(default='/etc/telegraf/telegraf.d/'),
+        state=dict(default='present',
+                   choices=['absent', 'present']),
+        )
+    )
+
+    if module.params.get('state') == 'present':
+        _add_config(module)
+
+    if module.params.get('state') == 'absent':
+        _remove_config(module)
+
+# this is magic, see lib/ansible/module_common.py
+from ansible.module_utils.basic import *
+main()
