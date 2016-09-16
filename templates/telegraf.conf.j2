@@ -24,7 +24,7 @@
   interval = "{{ telegraf_agent_interval }}"
   ## Rounds collection interval to 'interval'
   ## ie, if interval="10s" then always collect on :00, :10, :20, etc.
-  round_interval = {{ telegraf_agent_round_interval }}
+  round_interval = {{ telegraf_agent_round_interval | lower }}
 
   ## Telegraf will send metrics to outputs in batches of at
   ## most metric_batch_size metrics.
