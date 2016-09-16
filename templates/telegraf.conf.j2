@@ -49,13 +49,14 @@
   flush_jitter = "{{ telegraf_agent_flush_jitter }}"
 
   ## Run telegraf in debug mode
-  debug = {{ telegraf_agent_debug }}
+  debug = {{ telegraf_agent_debug | lower }}
+
   ## Run telegraf in quiet mode
-  quiet = {{ telegraf_agent_quiet }}
+  quiet = {{ telegraf_agent_quiet | lower}}
   ## Override default hostname, if empty use os.Hostname()
   hostname = "{{ telegraf_agent_hostname }}"
   ## If set to true, do no set the "host" tag in the telegraf agent.
-  omit_hostname = {{ telegraf_agent_omit_hostname }}
+  omit_hostname = {{ telegraf_agent_omit_hostname | lower}}
 
 
 {% if plugins is defined %}
